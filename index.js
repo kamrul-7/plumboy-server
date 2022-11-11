@@ -102,9 +102,9 @@ run().catch(err => console.error(err));
 
 
 app.get('/', (req, res) => {
-    res.send('genius car server is running')
+    res.send('plumboy server is running')
 })
 
 app.listen(port, () => {
-    console.log(`Genius Car server running on ${port}`);
+    console.log(`Plumboy server running on ${port}`);
 })
