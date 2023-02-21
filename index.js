@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 require('dotenv').config();
 
 const app = express();
@@ -19,6 +19,7 @@ async function run() {
     try {
         const serviceCollection = client.db('plumb').collection('services');
         const orderCollection = client.db('plumb').collection('comments');
+        const usersCollection = client.db('plumb').collection('users');
 
         app.get('/services', async (req, res) => {
             const query = {}
@@ -47,8 +48,18 @@ async function run() {
             const service = await cursor.toArray();
             res.send(service);
         });
+        app.get('/users', async (req, res) => {
+            const query = {};
+            const users = await usersCollection.find(query).toArray();
+            res.send(users);
+        });
 
-
+        app.post('/users', async (req, res) => {
+            const user = req.body;
+            console.log(user);
+            const result = await usersCollection.insertOne(user);
+            res.send(result);
+        });
         // comments api
         app.get('/comments', async (req, res) => {
             let query = {};
